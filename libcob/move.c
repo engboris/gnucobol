@@ -312,6 +312,7 @@ cob_move_alphanum_to_display (cob_field *f1, cob_field *f2)
 	int		sign;
 	int		count;
 	int		size;
+	unsigned char *tmp_src_data = NULL;
 
 	memset (f2->data, '0', f2->size);
 
@@ -371,11 +372,14 @@ cob_move_alphanum_to_display (cob_field *f1, cob_field *f2)
 	}
 
 	COB_PUT_SIGN (f2, sign);
+	if (tmp_src_data) cob_free (tmp_src_data);
 	return;
 
 error:
 	memset (f2->data, '0', f2->size);
 	COB_PUT_SIGN (f2, 0);
+	if (tmp_src_data) cob_free (tmp_src_data);
+	return;
 }
 
 static void
